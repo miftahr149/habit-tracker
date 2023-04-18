@@ -1,4 +1,4 @@
-import libs
+from build import App
 
 if __name__ == '__main__':
-    libs.App().mainloop()
+    App().mainloop()

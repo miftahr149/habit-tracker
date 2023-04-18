@@ -1,1 +1,0 @@
-from .MainApp import App
