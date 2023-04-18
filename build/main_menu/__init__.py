@@ -1,6 +1,7 @@
 import tkinter as tk
 import customtkinter as ctk
 
+from typing import Callable
 from .habit_list import HabitListFrame
 from .option import OptionFrame
 
