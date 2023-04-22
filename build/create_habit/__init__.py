@@ -14,6 +14,15 @@ class CreateHabitFrame(ctk.CTkFrame):
         label = ctk.CTkLabel(self, text='Create Habit View')
         label.pack(expand=tk.YES)
 
-        self.habit_option = HabitOptionFrame()
+        button = ctk.CTkButton(self, text='Click Me', command=self.exit_func)
+        button.pack(expand=tk.YES)
 
-        self.exit_button = ctk.CTkButton(self, command=self.exit_func)
+class CreateHabitFrameHeader(ctk.CTkFrame):
+    
+    def __init__(self, master: any, **kwargs) -> None:
+        super().__init__(master, **kwargs)
+        self.build()
+    
+    def build() -> None:
+        self.label = ctk.CTkLabel(self, text='Create Habit')
+        self.label.pack(expand=tk.YES, fill=tk.BOTH)

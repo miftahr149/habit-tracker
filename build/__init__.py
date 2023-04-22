@@ -1,6 +1,8 @@
 import tkinter as tk
 import customtkinter as ctk
 from .main_menu import MainMenu
+import utility as util
+
 
 class App(ctk.CTk):
 
@@ -8,8 +10,14 @@ class App(ctk.CTk):
         super().__init__()
         self.iconbitmap('favicon.ico')
         self.geometry('400x400')
-        self.build()
+
+        util.FunctionStorage([lambda: util.reset_frame(self)], 'reset')
+        util.FunctionStorage([lambda: self], 'get_master')
+        util.FunctionStorage([
+            util.FunctionStorage.get('reset'),
+            lambda: MainMenu(self).pack(expand=tk.YES, fill=tk.BOTH)
+        ], 'back_to_main')
+
+        util.FunctionStorage.get('back_to_main')()
+        
     
-    def build(self) -> None:
-        self.main_menu = MainMenu(self)
-        self.main_menu.pack(expand=tk.YES, fill=tk.BOTH)
