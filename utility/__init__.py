@@ -4,6 +4,8 @@ from PIL import Image
 import os
 from typing import Callable
 
+from .stack import Stack, FunctionStorage
+
 
 def get_image(image_dir: str | list[str, str], size: tuple = (20, 20)) -> ctk.CTkImage:
     print(f'dir: {image_dir}')
@@ -26,21 +28,3 @@ def get_image_all(folder: str) -> dict[str, ctk.CTkImage]:
 def reset_frame(master: tk.Widget) -> None:
     for child in master.winfo_children():
         child.destroy()
-
-
-class Stack:
-
-    stored_function = dict()
-
-    def __init__(self, list_func: list[Callable], name: str = None) -> None:
-        self.list_func = list_func
-        if name: 
-            self.list_func = self.stored_function[name] + self.list_func
-    
-    @classmethod
-    def add_stored_function(cls, name: str, stored_function: list[Callable]) -> None:
-        cls.stored_function[name] = stored_function
-
-    def __call__(self) -> None:
-        for func in self.list_func:
-            func()
