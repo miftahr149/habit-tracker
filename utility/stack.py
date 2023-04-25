@@ -19,11 +19,11 @@ class FunctionStorage:
         self.__storage[name] = Stack(func_list)
 
     @classmethod
-    def get(self, name: str = None) -> Stack:
+    def get(cls, name: str = None) -> Stack:
         if name == None:
-            return self.__storage
+            return cls.__storage
         
         try:
-            return self.__storage[name]
+            return cls.__storage[name]
         except KeyError:
             print(f'There is no function {name}')

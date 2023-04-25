@@ -10,8 +10,12 @@ class OptionFrame(ctk.CTkFrame):
         self.build()
     
     def build(self) -> None:
+        option_button_image = ctk.CTkImage(
+            light_image=util.ImageStorage.get('plus_light'),
+            dark_image=util.ImageStorage.get('plus_dark'))
+        
         self.create_habit_button = ctk.CTkButton(self, 
-            image=util.get_image('img/Plus.ico'), text='',
+            image=option_button_image, text='',
             command=util.Stack([
                 util.FunctionStorage.get('reset'),
                 lambda: CreateHabitFrame(
