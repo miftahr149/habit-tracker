@@ -10,6 +10,7 @@ class App(ctk.CTk):
         super().__init__()
         self.iconbitmap('favicon.ico')
         self.geometry('400x400')
+        self.resizable(False, False)
 
         util.FunctionStorage([lambda: util.reset_frame(self)], 'reset')
         util.FunctionStorage([lambda: self], 'get_master')

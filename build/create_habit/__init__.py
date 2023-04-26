@@ -23,11 +23,11 @@ class CreateHabitFrame(ctk.CTkFrame):
             'ipady': 10
         }
 
-        CreateHabitFrameHeader(self, fg_color='red', width=100).pack(
+        CreateHabitFrameHeader(self, width=100, fg_color='transparent').pack(
             **pack_info, fill=tk.X)
 
-        self.body = CreateHabitFrameBody(self, fg_color='blue')
-        self.body.pack(**pack_info, expand=tk.YES, fill=tk.BOTH)
+        self.body = CreateHabitFrameBody(self)
+        self.body.pack(expand=tk.YES, fill=tk.BOTH)
 
-        CreateHabitFrameFooter(self, exit_func=self.exit_func, fg_color='green').pack(
+        CreateHabitFrameFooter(self, exit_func=self.exit_func).pack(
             **pack_info, fill=tk.X)
