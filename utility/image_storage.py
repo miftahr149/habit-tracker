@@ -10,7 +10,6 @@ class ImageStorage:
     @classmethod
     def get_image_from_file(cls, file:str) -> None:
         image_from_file = {image.split('.')[0]: Image.open(f'{file}/{image}') for image in os.listdir(file)}
-        print(image_from_file)
         cls.__container.update(image_from_file)
     
     @classmethod

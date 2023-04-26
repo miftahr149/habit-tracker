@@ -10,7 +10,6 @@ class MainMenu(ctk.CTkFrame):
 
     def __init__(self, master: any, **kwargs) -> None:
         super().__init__(master, **kwargs)
-        #print('Hello World')
         self.build()
 
 
