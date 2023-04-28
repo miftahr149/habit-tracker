@@ -2,6 +2,7 @@ import customtkinter as ctk
 import tkinter as tk
 import utility as util
 
+from .add_property import WindowsAddProperty
 
 class CreateHabitFrameBody(ctk.CTkScrollableFrame):
 
@@ -47,5 +48,6 @@ class HabitProperty(ctk.CTkFrame):
 
         self.add_property = ctk.CTkButton(
             self, image=image, text='Add Property',
+            command=lambda: WindowsAddProperty(util.FunctionStorage.get('get_master')()),
             fg_color='transparent')
         self.add_property.pack(expand=tk.YES, fill=tk.X, side=tk.LEFT)

@@ -10,3 +10,11 @@ from .image_storage import ImageStorage
 def reset_frame(master: tk.Widget) -> None:
     for child in master.winfo_children():
         child.destroy()
+
+def change_color(master:tk.Widget, color:str):
+    master.configure(fg_color=color)
+
+    if isinstance(master, ctk.CTkFrame):
+        for children in master.winfo_children():
+            print(children)
+            my_function(children, color)

@@ -11,6 +11,7 @@ class App(ctk.CTk):
         self.iconbitmap('favicon.ico')
         self.geometry('400x400')
         self.resizable(False, False)
+        self.title('Habit Tracker')
 
         util.FunctionStorage([lambda: util.reset_frame(self)], 'reset')
         util.FunctionStorage([lambda: self], 'get_master')
