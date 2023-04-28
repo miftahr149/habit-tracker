@@ -11,10 +11,17 @@ def reset_frame(master: tk.Widget) -> None:
     for child in master.winfo_children():
         child.destroy()
 
-def change_color(master:tk.Widget, color:str):
-    master.configure(fg_color=color)
+def change_color(master:tk.Widget, color:str, master_change_color:bool=True) -> None:
+    if master_change_color:
+        try:
+            master.configure(fg_color=color)
+        except:
+            return
 
     if isinstance(master, ctk.CTkFrame):
         for children in master.winfo_children():
-            print(children)
-            my_function(children, color)
+            change_color(children, color)
+
+def change_color_multiple(list_widget:list[tk.Widget], color:str) -> None:
+    for widget in list_widget:
+        change_color(widget, color)
