@@ -28,7 +28,7 @@ class WindowsEditProperty(WindowsAddProperty):
         self.delete_property_button = ctk.CTkButton(
             self.button_frame, text='Delete Property',
             command=util.Stack([
-
+                
             ]), fg_color='red'
         )
         self.create_property_button.configure(text='Edit Property')
