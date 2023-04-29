@@ -44,14 +44,15 @@ class WindowsAddProperty(ctk.CTkToplevel):
         ctk.CTkLabel(self.setting_property_frame, text='').pack()
 
         # Create Property Button
+        self.button_frame = ctk.CTkFrame(self.main_frame)
         self.create_property_button = ctk.CTkButton(
-            self.main_frame,
+            self.button_frame,
             image=ctk.CTkImage(light_image=util.ImageStorage.get('plus_light'),
                                dark_image=util.ImageStorage.get('plus_dark')),
             text='Create Property',
             command=lambda: self.button_function())
-        self.create_property_button.pack(
-            side=tk.BOTTOM, fill=tk.X, padx=10, pady=10)
+        self.create_property_button.pack(fill=tk.X)
+        self.button_frame.pack(side=tk.BOTTOM, fill=tk.X)
 
         # Change Color
         util.change_color_multiple([

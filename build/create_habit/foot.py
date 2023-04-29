@@ -12,8 +12,14 @@ class CreateHabitFrameFooter(ctk.CTkFrame):
         self.build()
 
     def build(self) -> None:
-        ctk.CTkButton(self, text='Create',
-                      command=util.Stack([
-                          util.FunctionStorage.get('back_to_main'),
-                          self.command
-                      ]), width=50).pack(expand=tk.YES, fill=tk.X, padx=10)
+        ctk.CTkButton(
+            self, text='Create Habits',
+            command=util.Stack([
+                util.FunctionStorage.get('back_to_main'),
+                self.command
+            ]),
+            image=ctk.CTkImage(
+                light_image=util.ImageStorage.get('plus_light'),
+                dark_image=util.ImageStorage.get('plus_dark')
+            ), width=50
+        ).pack(expand=tk.YES, fill=tk.BOTH, padx=10, pady=10)

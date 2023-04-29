@@ -3,6 +3,7 @@ import tkinter as tk
 import utility as util
 
 from .add_property import WindowsAddProperty
+from .edit_property import WindowsEditProperty
 
 
 class CreateHabitFrameBody(ctk.CTkScrollableFrame):
@@ -32,8 +33,8 @@ class HabitName(ctk.CTkFrame):
     def build(self) -> None:
         ctk.CTkLabel(self, text='Name').pack(
             fill=tk.X, expand=tk.YES, side=tk.LEFT)
-        self.habit_name = ctk.CTkEntry(self, placeholder_text='Habits Name')
-        self.habit_name.pack(side=tk.LEFT, fill=tk.X, expand=tk.YES)
+        self.habit_name = ctk.CTkEntry(self, placeholder_text='Habits Name', width=200)
+        self.habit_name.pack(side=tk.LEFT)
 
     def get(self) -> str:
         return self.habit_name.get()
@@ -54,17 +55,21 @@ class HabitProperty(ctk.CTkFrame):
         self.add_property = ctk.CTkButton(
             self, image=image, text='Add Property',
             command=lambda: WindowsAddProperty(
-                self, command=self.test_function),
+                self, command=self.add_property_function),
             fg_color='transparent')
         self.add_property.pack(expand=tk.YES, fill=tk.X, side=tk.LEFT)
 
-    def test_function(self) -> None:
+    def add_property_function(self) -> None:
         new_habit_property: dict = util.VariableStorage.get(
             'new_habit_property')
         self.property_list.append(new_habit_property)
 
         util.reset_frame(self)
 
+        self.build_property()
+        self.build()
+    
+    def build_property(self) -> None:
         for habit_property in self.property_list:
             habit_property_frame = ctk.CTkFrame(self)
             habit_property_frame.pack(fill=tk.X)
@@ -73,12 +78,29 @@ class HabitProperty(ctk.CTkFrame):
                 habit_property_frame,
                 text=habit_property['name'],
                 fg_color='transparent',
-                command=lambda: print('Hello World')
+                command=lambda: WindowsEditProperty(
+                    self, command=lambda: self.edit_function(),
+                    habit_property=habit_property
+                )
             ).pack(expand=tk.YES, fill=tk.BOTH, side=tk.LEFT)
 
             ctk.CTkLabel(
                 habit_property_frame, 
-                text=habit_property['type']
-            ).pack(expand=tk.YES, fill=tk.BOTH, side=tk.LEFT)
-        
+                text=habit_property['type'],
+                width=200
+            ).pack(side=tk.LEFT)
+
+            util.change_color(habit_property_frame, 'transparent')
+
+    def edit_function(self) -> None:
+        habit_property: dict = util.VariableStorage.get('new_habit_property')
+        index = self.property_list.index(util.VariableStorage.get('old_habit_property'))
+        self.property_list[index] = habit_property
+
+        util.reset_frame(self)
+        self.build_property()
         self.build()
+    
+    def delete_function(self) -> None:
+        pass
+        
