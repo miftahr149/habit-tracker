@@ -19,8 +19,8 @@ class OptionFrame(ctk.CTkFrame):
             command=util.Stack([
                 util.FunctionStorage.get('reset'),
                 lambda: CreateHabitFrame(
-                    util.FunctionStorage.get('get_master')(),
-                    exit_func=util.Stack([
+                    util.VariableStorage.get('master'),
+                    command=util.Stack([
                         util.FunctionStorage.get('back_to_main')
                     ])
                 ).pack(expand=tk.YES, fill=tk.BOTH)

@@ -6,6 +6,7 @@ from typing import Callable
 
 from .stack import Stack, FunctionStorage
 from .image_storage import ImageStorage
+from .variable_storage import VariableStorage
 
 def reset_frame(master: tk.Widget) -> None:
     for child in master.winfo_children():

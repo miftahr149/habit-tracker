@@ -1,12 +1,13 @@
 import tkinter as tk
 import customtkinter as ctk
 import utility as util
-
+from typing import Callable
 
 class WindowsAddProperty(ctk.CTkToplevel):
 
-    def __init__(self, master: any, **kwargs) -> None:
+    def __init__(self, master: any, command: Callable, **kwargs) -> None:
         super().__init__(master, **kwargs)
+        self.command = command
         self.iconbitmap('favicon.ico')
         self.resizable(False, False)
         self.title('Add Property')
@@ -49,7 +50,8 @@ class WindowsAddProperty(ctk.CTkToplevel):
                                dark_image=util.ImageStorage.get('plus_dark')),
             text='Create Property',
             command=lambda: self.button_function())
-        self.create_property_button.pack(side=tk.BOTTOM, fill=tk.X, padx=10, pady=10)
+        self.create_property_button.pack(
+            side=tk.BOTTOM, fill=tk.X, padx=10, pady=10)
 
         # Change Color
         util.change_color_multiple([
@@ -71,11 +73,18 @@ class WindowsAddProperty(ctk.CTkToplevel):
             self.divide.insert(0, '100')
             self.divide_frame.pack(fill=tk.X, ipadx=10, ipady=10)
             return
-    
+
     def button_function(self) -> None:
         new_property = {
-            'name':self.name.get(),
-            'type':self.type.get()
+            'name': self.name.get() if self.name.get() != '' else self.type.get(),
+            'type': self.type.get(),
         }
-        util.FunctionStorage(lambda: new_property, 'new_habit_property')
-        
+
+        if self.type.get() == 'Number':
+            new_property['setting'] = {
+                'divide': int(self.divide.get())
+            }
+
+        util.VariableStorage.add('new_habit_property', new_property)
+        self.destroy()
+        self.command()

@@ -5,7 +5,7 @@ import os
 
 class ImageStorage:
 
-    __container = dict()
+    __container:dict[str, Image.open] = dict()
 
     @classmethod
     def get_image_from_file(cls, file:str) -> None:

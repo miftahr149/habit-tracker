@@ -13,17 +13,25 @@ class Stack:
 
 class FunctionStorage:
 
-    __storage = dict()
-
-    def __init__(self, func_list: list[Callable], name: str) -> None:
-        self.__storage[name] = Stack(func_list)
+    __storage:dict[str, Stack] = dict()
+    
+    @classmethod
+    def add(self, func_list: list[Callable], key: str) -> None:
+        self.__storage[key] = Stack(func_list)
 
     @classmethod
-    def get(cls, name: str = None) -> Stack:
-        if name == None:
+    def get(cls, key: str = None) -> Stack:
+        if key == None:
             return cls.__storage
         
         try:
-            return cls.__storage[name]
+            return cls.__storage[key]
         except KeyError:
-            print(f'There is no function {name}')
+            print(f'There is no function {key}')
+    
+    @classmethod
+    def execute(cls, key: str) -> None:
+        try:
+            cls.__storage[key]()
+        except KeyError():
+            print(f'There is no function {key}')

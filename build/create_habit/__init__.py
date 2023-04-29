@@ -12,9 +12,9 @@ from .foot import CreateHabitFrameFooter
 
 class CreateHabitFrame(ctk.CTkFrame):
 
-    def __init__(self, master: any, exit_func: Callable, **kwargs) -> None:
+    def __init__(self, master: any, command: Callable, **kwargs) -> None:
         super().__init__(master, **kwargs)
-        self.exit_func = exit_func
+        self.command = command
         self.build()
 
     def build(self) -> None:
@@ -29,5 +29,5 @@ class CreateHabitFrame(ctk.CTkFrame):
         self.body = CreateHabitFrameBody(self)
         self.body.pack(expand=tk.YES, fill=tk.BOTH)
 
-        CreateHabitFrameFooter(self, exit_func=self.exit_func).pack(
+        CreateHabitFrameFooter(self, command=self.command).pack(
             **pack_info, fill=tk.X)

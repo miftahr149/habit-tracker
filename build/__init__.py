@@ -13,12 +13,13 @@ class App(ctk.CTk):
         self.resizable(False, False)
         self.title('Habit Tracker')
 
-        util.FunctionStorage([lambda: util.reset_frame(self)], 'reset')
-        util.FunctionStorage([lambda: self], 'get_master')
-        util.FunctionStorage([
+        util.VariableStorage.add('master', self)
+
+        util.FunctionStorage.add([lambda: util.reset_frame(self)], 'reset')
+        util.FunctionStorage.add([
             util.FunctionStorage.get('reset'),
             lambda: MainMenu(self).pack(expand=tk.YES, fill=tk.BOTH)
         ], 'back_to_main')
         util.ImageStorage.get_image_from_file('img')
         
-        util.FunctionStorage.get('back_to_main')()
+        util.FunctionStorage.execute('back_to_main')
