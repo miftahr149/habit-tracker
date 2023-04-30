@@ -21,7 +21,7 @@ class OptionFrame(ctk.CTkFrame):
                 lambda: CreateHabitFrame(
                     util.VariableStorage.get('master'),
                     command=util.Stack([
-                        util.FunctionStorage.get('back_to_main')
+                        print('Hello World')
                     ])
                 ).pack(expand=tk.YES, fill=tk.BOTH)
             ]),

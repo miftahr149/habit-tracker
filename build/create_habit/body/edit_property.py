@@ -21,6 +21,7 @@ class WindowsEditProperty(WindowsAddProperty):
 
         self.type.set(self.habit_property['type'])
         self.type_function(self.type.get())
+
         if self.habit_property['type'] == 'Number':
             self.divide.delete(0, len(self.divide.get()))
             print(self.divide.get())
@@ -42,5 +43,7 @@ class WindowsEditProperty(WindowsAddProperty):
 
         self.create_property_button.configure(
             text='Edit Property',
-            command=util.Stack([lambda: self.command(self.habit_property, self.get_property()),
-                                lambda: self.destroy()]))
+            command=util.Stack([
+                lambda: self.command(self.habit_property, self.get_property()),
+                self.destroy])
+            )

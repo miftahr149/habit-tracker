@@ -3,13 +3,7 @@ import customtkinter as ctk
 import utility as util
 from typing import Callable
 
-
-class InputWidget(ctk.CTkFrame):
-
-    def __init__(self, master: any, text: str, **kwargs) -> None:
-        super().__init__(master, **kwargs)
-        ctk.CTkLabel(self, text=text).pack(
-            expand=tk.YES, fill=tk.BOTH, side=tk.LEFT)
+from .input_widget import InputWidget
 
 
 class WindowsAddProperty(ctk.CTkToplevel):

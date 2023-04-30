@@ -19,14 +19,19 @@ class CreateHabitFrame(ctk.CTkFrame):
         self.build()
 
     def build(self) -> None:
-        pack_info = {
+        PACK_INFO = {
             'ipadx': 10,
             'ipady': 10
         }
 
-        Header(self, width=100, fg_color='transparent').pack(**pack_info, fill=tk.X)
+        Header(self, width=100, fg_color='transparent').pack(**PACK_INFO, fill=tk.X)
 
         self.body = Body(self)
         self.body.pack(expand=tk.YES, fill=tk.BOTH)
 
-        Footer(self, command=self.command).pack(**pack_info, fill=tk.X)
+        Footer(
+            self, 
+            command=util.Stack([
+                lambda: print(self.body.get())
+            ])
+        ).pack(**PACK_INFO, fill=tk.X)

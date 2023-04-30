@@ -66,3 +66,6 @@ class HabitProperty(ctk.CTkFrame):
     def edit_property_function(self, old: dict, new: dict) -> None:
         self.property_list[self.property_list.index(old)] = new
         self.build_property()
+    
+    def get(self) -> list:
+        return self.property_list

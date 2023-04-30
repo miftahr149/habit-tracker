@@ -15,8 +15,8 @@ class Footer(ctk.CTkFrame):
         ctk.CTkButton(
             self, text='Create Habits',
             command=util.Stack([
-                util.FunctionStorage.get('back_to_main'),
-                self.command
+                self.command,
+                util.FunctionStorage.get('back_to_main')
             ]),
             image=ctk.CTkImage(
                 light_image=util.ImageStorage.get('plus_light'),
