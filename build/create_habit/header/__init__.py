@@ -3,7 +3,7 @@ import tkinter as tk
 import utility as util
 from build import common
 
-class CreateHabitFrameHeader(ctk.CTkFrame):
+class Header(ctk.CTkFrame):
 
     def __init__(self, master: any, **kwargs) -> None:
         super().__init__(master, **kwargs)

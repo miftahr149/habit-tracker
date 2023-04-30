@@ -4,7 +4,7 @@ import utility as util
 from typing import Callable
 
 
-class CreateHabitFrameFooter(ctk.CTkFrame):
+class Footer(ctk.CTkFrame):
 
     def __init__(self, master: any, command: Callable, **kwargs) -> None:
         super().__init__(master, **kwargs)

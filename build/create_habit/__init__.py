@@ -5,9 +5,10 @@ from typing import Callable
 import build.common as common
 import utility as util
 
-from .header import CreateHabitFrameHeader
-from .body import CreateHabitFrameBody
-from .foot import CreateHabitFrameFooter
+from .header import Header
+from .body import Body
+from .footer import Footer
+
 
 
 class CreateHabitFrame(ctk.CTkFrame):
@@ -23,11 +24,9 @@ class CreateHabitFrame(ctk.CTkFrame):
             'ipady': 10
         }
 
-        CreateHabitFrameHeader(self, width=100, fg_color='transparent').pack(
-            **pack_info, fill=tk.X)
+        Header(self, width=100, fg_color='transparent').pack(**pack_info, fill=tk.X)
 
-        self.body = CreateHabitFrameBody(self)
+        self.body = Body(self)
         self.body.pack(expand=tk.YES, fill=tk.BOTH)
 
-        CreateHabitFrameFooter(self, command=self.command).pack(
-            **pack_info, fill=tk.X)
+        Footer(self, command=self.command).pack(**pack_info, fill=tk.X)
