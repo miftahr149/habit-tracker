@@ -14,8 +14,8 @@ class MainMenu(ctk.CTkFrame):
 
 
     def build(self) -> None:
-        self.option = OptionFrame(self)
-        self.option.pack(fill=tk.X, ipadx=30, ipady=30)
-
         self.habit_list = HabitListFrame(self)
+        self.option = OptionFrame(self, create_command=self.habit_list.test_function)
+
+        self.option.pack(fill=tk.X, ipadx=30, ipady=30)
         self.habit_list.pack(fill=tk.BOTH, expand=tk.YES)

@@ -2,10 +2,12 @@ import tkinter as tk
 import customtkinter as ctk
 import utility as util
 from build.create_habit import CreateHabitFrame
+from typing import Callable
 
 class OptionFrame(ctk.CTkFrame):
 
-    def __init__(self, master: any, **kwargs) -> None:
+    def __init__(self, master: any, create_command: Callable, **kwargs) -> None:
+        self.create_command = create_command
         super().__init__(master, **kwargs)
         self.build()
     
@@ -20,9 +22,7 @@ class OptionFrame(ctk.CTkFrame):
                 util.FunctionStorage.get('reset'),
                 lambda: CreateHabitFrame(
                     util.VariableStorage.get('master'),
-                    command=util.Stack([
-                        print('Hello World')
-                    ])
+                    command=self.create_command
                 ).pack(expand=tk.YES, fill=tk.BOTH)
             ]),
             width=50, fg_color='transparent', border_width=0)

@@ -24,7 +24,6 @@ class WindowsEditProperty(WindowsAddProperty):
 
         if self.habit_property['type'] == 'Number':
             self.divide.delete(0, len(self.divide.get()))
-            print(self.divide.get())
             self.divide.insert(0, self.habit_property['setting']['divide'])
 
         self.delete_property_button = ctk.CTkButton(

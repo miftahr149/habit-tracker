@@ -3,7 +3,7 @@ import customtkinter as ctk
 import utility as util
 from typing import Callable
 
-from .input_widget import InputWidget
+from build import common
 
 
 class WindowsAddProperty(ctk.CTkToplevel):
@@ -24,14 +24,14 @@ class WindowsAddProperty(ctk.CTkToplevel):
         }
 
         # Property Name
-        self.name_frame = InputWidget(self, 'Property Name')
+        self.name_frame = common.InputWidget(self, 'Property Name')
         self.name_frame.pack(**self.FRAME_PACK_INFO)
 
         self.name = ctk.CTkEntry(self.name_frame, width=200)
         self.name.pack(side=tk.LEFT)
 
         # Type of Property
-        self.type_frame = InputWidget(self, 'Property Type')
+        self.type_frame = common.InputWidget(self, 'Property Type')
         self.type_frame.pack(**self.FRAME_PACK_INFO)
 
         self.type = ctk.CTkOptionMenu(
@@ -67,13 +67,15 @@ class WindowsAddProperty(ctk.CTkToplevel):
         self.setting_property_frame.configure(height=0)
 
         if value == 'Number':
-            self.divide_frame = InputWdiget('Divide by')
+            self.divide_frame = common.InputWidget(
+                self.setting_property_frame, 'Divide by',
+                fg_color='transparent')
             self.divide_frame.pack(**self.FRAME_PACK_INFO)
 
             self.divide = ctk.CTkEntry(self.divide_frame, width=200)
             self.divide.pack(side=tk.LEFT)
             self.divide.insert(0, '100')
-            
+
             return
 
     def get_property(self) -> dict:

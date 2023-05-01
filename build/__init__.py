@@ -20,6 +20,9 @@ class App(ctk.CTk):
             util.FunctionStorage.get('reset'),
             lambda: MainMenu(self).pack(expand=tk.YES, fill=tk.BOTH)
         ], 'back_to_main')
+
+        
+
         util.ImageStorage.get_image_from_file('img')
         
         util.FunctionStorage.execute('back_to_main')
