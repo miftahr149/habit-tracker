@@ -2,6 +2,8 @@ import tkinter as tk
 import customtkinter as ctk
 import utility as util
 
+from build.habit_object import HabitObject
+
 class HabitListFrame(ctk.CTkFrame):
 
     storage_habit:list[dict] = list()
@@ -12,11 +14,10 @@ class HabitListFrame(ctk.CTkFrame):
     
     def build(self) -> None:
         for habit_data in self.storage_habit:
-            print('hello world')
-            
-
-        self.label = ctk.CTkLabel(self, text='Habit List Section')
-        self.label.pack(fill=tk.X, expand=tk.YES)
+            HabitObject(
+                self,
+                habit_data=habit_data,
+            ).pack(expand=tk.X, ipadx=10, ipady=10)
     
     def test_function(self, habit:dict) -> None:
         self.storage_habit.append(habit)
