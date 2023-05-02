@@ -32,6 +32,8 @@ class CreateHabitFrame(ctk.CTkFrame):
         Footer(
             self, 
             command=util.Stack([
-                lambda: print(self.body.get())
+                lambda: util.VariableStorage.add('habit_data', self.body.get()),
+                util.FunctionStorage.get('back_to_main'),
+                lambda: self.command(util.VariableStorage.get('habit_data'))
             ])
         ).pack(**PACK_INFO, fill=tk.X)
