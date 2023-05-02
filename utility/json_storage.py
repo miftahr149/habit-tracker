@@ -28,14 +28,13 @@ class OpenJson:
 
 class JsonStorage:
 
-    storage:dict[str, Test] = dict()
+    storage:dict[str, OpenJson] = dict()
 
     @classmethod
-    def create(cls, file_name:str) -> Test:
-        test = Test(file_name)
-        cls.storage[file_name] = test
-        return test
+    def create(cls, file_name:str) -> OpenJson:
+        cls.storage[file_name] = OpenJson(file_name)
+        return cls.storage[file_name]
     
     @classmethod
-    def get(cls, file_name:str=None) -> Test | dict[Test]:
+    def get(cls, file_name:str=None) -> OpenJson | dict[OpenJson]:
         return cls.storage[file_name] if file_name else cls.storage
