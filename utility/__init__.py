@@ -12,6 +12,10 @@ from .json_storage import JsonStorage
 def reset_frame(master: tk.Widget) -> None:
     for child in master.winfo_children():
         child.destroy()
+    
+def forget_all(frame:ctk.CTkFrame) -> None:
+    for child in master.winfo_children():
+        child.forget()
 
 def change_color(master:tk.Widget, color:str, master_change_color:bool=True) -> None:
     if master_change_color:

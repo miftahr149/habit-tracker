@@ -19,3 +19,5 @@ class MainMenu(ctk.CTkFrame):
 
         self.option.pack(fill=tk.X, ipadx=30, ipady=30)
         self.habit_list.pack(fill=tk.BOTH, expand=tk.YES)
+
+        print(self.winfo_children())

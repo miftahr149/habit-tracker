@@ -14,15 +14,10 @@ class App(ctk.CTk):
         self.title('Habit Tracker')
 
         util.VariableStorage.add('master', self)
-
-        util.FunctionStorage.add([lambda: util.reset_frame(self)], 'reset')
-        util.FunctionStorage.add([
-            util.FunctionStorage.get('reset'),
-            lambda: MainMenu(self).pack(expand=tk.YES, fill=tk.BOTH)
-        ], 'back_to_main')
-
-        
-
+        util.FunctionStorage.add([lambda: util.forget_all(self)], 'reset')
         util.ImageStorage.get_image_from_file('img')
+
+        self.build()
         
-        util.FunctionStorage.execute('back_to_main')
+    def build(self) -> None:
+        pass

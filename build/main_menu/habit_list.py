@@ -21,5 +21,3 @@ class HabitListFrame(ctk.CTkFrame):
     
     def test_function(self, habit:dict) -> None:
         self.storage_habit.append(habit)
-        util.reset_frame(self)
-        self.build()
