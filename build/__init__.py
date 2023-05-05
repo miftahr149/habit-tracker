@@ -2,6 +2,7 @@ import tkinter as tk
 import customtkinter as ctk
 from .main_menu import MainMenu
 import utility as util
+import os
 
 
 class App(ctk.CTk):
@@ -20,6 +21,7 @@ class App(ctk.CTk):
             lambda: util.check_visible_widget(self).pack_forget()
         ], 'reset')
 
+        util.JsonStorage.load_from_folder('json')
         self.build()
         
     def build(self) -> None:
@@ -29,3 +31,4 @@ class App(ctk.CTk):
         util.FunctionStorage.add([
             lambda: main_menu.pack(expand=tk.YES, fill=tk.BOTH)
         ], 'back_to_main')
+    
