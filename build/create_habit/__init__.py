@@ -33,6 +33,7 @@ class CreateHabitFrame(ctk.CTkFrame):
             self, 
             command=util.Stack([
                 lambda: util.VariableStorage.add('habit_data', self.body.get()),
+                self.destroy,
                 util.FunctionStorage.get('back_to_main'),
                 lambda: self.command(util.VariableStorage.get('habit_data'))
             ])

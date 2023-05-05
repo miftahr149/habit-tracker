@@ -11,7 +11,7 @@ class HabitProperty(ctk.CTkFrame):
 
     def __init__(self, master: any, **kwargs) -> None:
         super().__init__(master, **kwargs)
-        self.property_list: list[str, dict] = list()
+        self.property_list: list[dict] = list()
         self.build()
 
     def build(self) -> None:
@@ -67,5 +67,5 @@ class HabitProperty(ctk.CTkFrame):
         self.property_list[self.property_list.index(old)] = new
         self.build_property()
     
-    def get(self) -> list:
+    def get(self) -> list[dict]:
         return self.property_list
