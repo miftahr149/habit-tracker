@@ -2,7 +2,7 @@ import tkinter as tk
 import customtkinter as ctk
 import utility as util
 
-from build.habit_object import HabitObject
+from build.habit_page import HabitPage
 
 
 class HabitListFrame(ctk.CTkFrame):
@@ -17,11 +17,17 @@ class HabitListFrame(ctk.CTkFrame):
 
     def build(self) -> None:
         for habit_name, habit_property in self.storage_habit.items():
-            HabitObject(
+            ctk.CTkButton(
                 self,
                 text=habit_name,
                 fg_color='transparent',
-                habit_property=habit_property,
+                command=util.Stack([
+                    util.FunctionStorage.get('reset'),
+                    lambda: HabitPage(
+                        util.VariableStorage.get('master'),
+                        habit_data=(habit_name, habit_property)
+                    ).pack(expand=tk.YES, fill=tk.BOTH)
+                ])
             ).pack(fill=tk.X, padx=10)
         
         if len(self.winfo_children()) == 0:
