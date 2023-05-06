@@ -4,8 +4,8 @@ import os
 
 class OpenJson:
 
-    def __init__(self, file_name: str) -> None:
-        self.file_dir = f'json/{file_name}.json'
+    def __init__(self, folder_name: str, file_name: str) -> None:
+        self.file_dir = f'json/{folder_name}/{file_name}.json'
 
         if not os.path.exists(self.file_dir):
             open(self.file_dir, 'a').close()
@@ -36,18 +36,25 @@ class JsonStorage:
     storage: dict[dict[OpenJson]] = dict()
 
     @classmethod
-    def create(cls, file_name: str, folder: str = 'default') -> OpenJson:
-        cls.storage[type_storage][file_name] = OpenJson(file_name)
-        return cls.storage[type_storage][file_name]
+    def create(cls, folder_name: str, file_name: str) -> OpenJson:
+        cls.storage[folder_name] = dict()
+        cls.storage[folder_name][file_name] = OpenJson(folder_name, file_name)
+        return cls.storage[folder_name][file_name]
 
     @classmethod
-    def get(cls, file_name: str = None, folder: str = 'default') -> OpenJson | dict[OpenJson]:
-        return cls.storage[type_storage][file_name] if file_name else cls.storage
+    def get(cls, folder_name: str = None, file_name: str = None) -> dict[dict[OpenJson]] | dict[OpenJson]:
+        return_variable = cls.storage
+        if folder_name:
+            return_variable = cls.storage[folder_name]
+        if file_name:
+            return_variable = return_variable[file_name]
+        return return_variable
 
     @classmethod
-    def load_from_folder(cls, folder: str = None) -> dict[OpenJson]:
-        json_dict: dict[OpenJson] = dict()
-        for json_file in os.listdir(folder):
+    def load_from_folder(cls, folder_name: str = None) -> dict[OpenJson]:
+        cls.storage[folder_name]: dict[OpenJson] = dict()
+        for json_file in os.listdir(f'json/{folder_name}'):
             file_name = json_file.split('.')[0]
-            json_dict[file_name] = OpenJson(file_name)
-        return json_dict
+            cls.storage[folder_name][file_name] = OpenJson(
+                folder_name, file_name)
+        return cls.storage[folder_name]

@@ -21,7 +21,6 @@ class App(ctk.CTk):
             lambda: util.check_visible_widget(self).pack_forget()
         ], 'reset')
 
-        util.JsonStorage.load_from_folder('json')
         self.build()
         
     def build(self) -> None:
