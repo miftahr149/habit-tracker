@@ -17,7 +17,7 @@ class MainMenu(ctk.CTkFrame):
         self.habit_list = HabitListFrame(self)
         self.option = OptionFrame(self, create_command=self.habit_list.add_habit_function)
 
-        self.option.pack(fill=tk.X, ipadx=30, ipady=30)
+        self.option.pack(fill=tk.X, ipadx=30, ipady=30, pady=(0, 20))
         self.habit_list.pack(fill=tk.BOTH, expand=tk.YES)
 
         print(self.winfo_children())

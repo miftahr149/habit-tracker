@@ -16,8 +16,8 @@ class HabitPage(ctk.CTkFrame):
         self.build()
 
     def build(self) -> None:
-        Header(self, self.habit_name).pack(fill=tk.X, ipady=10)
+        Header(self, self.habit_name).pack(fill=tk.X, ipady=10, pady=(0, 20))
 
-        # Body()
+        Body(self, self.habit_name).pack(expand=tk.YES, fill=tk.BOTH)
 
         # Footer()
