@@ -58,8 +58,9 @@ class DailyHabit(ctk.CTkFrame):
             ).pack(fill=tk.X, side=tk.LEFT)
 
             if habit_proeprty == "Chekclist":
-                self.daily_habit_data[property_name] = ctk.BooleanVar(
-                    value=False)
+                self.daily_habit_data.update({
+                    property_name: ctk.Variable(value=False)
+                })
                 ctk.CTkCheckBox(
                     property_frame, text='', width=200,
                     onvalue=True, offvalue=False,
@@ -69,9 +70,9 @@ class DailyHabit(ctk.CTkFrame):
             if habit_property == 'Number':
                 entry = ctk.CTkEntry(property_frame)
                 entry.bind(
-                    '<Key>',
-                    lambda event: self.daily_habit_data.update(
-                        {property_name: entry + event.char}
-                    )
+                    '<FocusOut>',
+                    lambda event: self.daily_habit_data.update({
+                        property_name: entry.get()
+                    })
                 )
                 entry.pack(expand=tk.YES, fill=tk.BOTH)

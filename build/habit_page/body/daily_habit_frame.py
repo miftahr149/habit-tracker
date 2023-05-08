@@ -2,7 +2,7 @@ import utility as util
 import tkinter as tk
 import customtkinter as ctk
 
-from .create_daily_habit import CreateDailyHabit
+from .daily_habit import DailyHabit
 
 class DailyHabitFrame(ctk.CTkScrollableFrame):
 
