@@ -24,7 +24,7 @@ class DailyHabitFrame(ctk.CTkScrollableFrame):
             ),
             command=util.Stack([
                 util.FunctionStorage.get('reset'),
-                lambda: CreateDailyHabit(
+                lambda: DailyHabit(
                     util.VariableStorage.get('master'),
                     create_command=self.add_daily_habit
                 ).pack(expand=tk.YES, fill=tk.BOTH)
