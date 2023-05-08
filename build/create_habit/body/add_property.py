@@ -8,7 +8,7 @@ from build import common
 
 class WindowsAddProperty(ctk.CTkToplevel):
 
-    def __init__(self, master: any, command: Callable, **kwargs) -> None:
+    def __init__(self, master: any, command: Callable[[dict], None], **kwargs) -> None:
         super().__init__(master, **kwargs)
         self.command = command
         self.iconbitmap('favicon.ico')

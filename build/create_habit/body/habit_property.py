@@ -5,6 +5,7 @@ from typing import Callable
 
 from .add_property import WindowsAddProperty
 from .edit_property import WindowsEditProperty
+from .property_object import PropertyObject
 
 
 class HabitProperty(ctk.CTkFrame):
@@ -23,7 +24,7 @@ class HabitProperty(ctk.CTkFrame):
             self, image=image, text='Add Property',
             command=lambda: WindowsAddProperty(
                 self,
-                command=lambda habit_property: self.add_property_function(habit_property)),
+                command=self.add_property_function),
             fg_color='transparent')
         self.add_property.pack(expand=tk.YES, fill=tk.X, side=tk.LEFT)
 
@@ -35,36 +36,20 @@ class HabitProperty(ctk.CTkFrame):
     def build_property(self) -> None:
         util.reset_frame(self)
         for habit_property in self.property_list:
-            habit_property_frame = ctk.CTkFrame(self)
-            habit_property_frame.pack(fill=tk.X)
-
-            ctk.CTkButton(
-                habit_property_frame,
-                text=habit_property['name'],
-                fg_color='transparent',
-                command=lambda: WindowsEditProperty(
-                    self,
-                    command_edit=lambda old, new: self.edit_property_function(
-                        old, new),
-                    command_delete=util.Stack([
-                        lambda: self.property_list.remove(habit_property),
-                        self.build_property
-                    ]),
-                    habit_property=habit_property
-                )
-            ).pack(expand=tk.YES, fill=tk.BOTH, side=tk.LEFT)
-
-            ctk.CTkLabel(
-                habit_property_frame,
-                text=habit_property['type'],
-                width=200
-            ).pack(side=tk.LEFT)
-
-            util.change_color(habit_property_frame, 'transparent')
+            PropertyObject(
+                self, 
+                _property=habit_property,
+                command_edit=self.edit_property_function,
+                command_delete=self.delete_property_function
+            ).pack(fill=tk.X)
         self.build()
 
     def edit_property_function(self, old: dict, new: dict) -> None:
         self.property_list[self.property_list.index(old)] = new
+        self.build_property()
+    
+    def delete_property_function(self, habit_property: dict) -> None:
+        self.property_list.remove(habit_property)
         self.build_property()
     
     def get(self) -> list[dict]:
