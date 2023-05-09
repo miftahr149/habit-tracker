@@ -42,37 +42,73 @@ class DailyHabit(ctk.CTkFrame):
             font=('Helvetica', 20, 'bold'),
             placeholder_text=self.daily_habit_data.strftime("%d %B %Y"),
         )
-        self.daily_habit_data.pack(fill=tk.X, padx=10, pady=10)
+        self.daily_habit_date.pack(fill=tk.X, padx=10, pady=10)
 
         self.build_daily_habit_property()
 
     def build_daily_habit_property(self) -> None:
+        self.daily_habit_property_frame = ctk.CTkFrame(self.body_frame)
         for property_name, property_type in self.habit_property.items():
-            property_frame = ctk.CTkFrame(self.body_frame)
-            property_frame.pack(fill=tk.X, ipadx=10, ipady=10)
+            create_widget = {
+                'Number': lambda: DailyHabitPropertyNumber(
+                    self.daily_habit_property_frame,
+                    property_data=(property_name, property_type)
+                ).pack(fill=tk.X),
 
-            ctk.CTkLabel(
-                property_frame,
-                text=property_name,
-                anchor=tk.W
-            ).pack(fill=tk.X, side=tk.LEFT)
+                'Checklist': lambda: DailyHabitPropertyChecklist(
+                    self.daily_habit_property_frame,
+                    property_data=(property_name, property_type)
+                ).pack(fill=tk.X),
+            }
 
-            if habit_proeprty == "Chekclist":
-                self.daily_habit_data.update({
-                    property_name: ctk.Variable(value=False)
-                })
-                ctk.CTkCheckBox(
-                    property_frame, text='', width=200,
-                    onvalue=True, offvalue=False,
-                    variable=self.daily_habit_data[property_name],
-                ).pack(side=tk.LEFT)
+            create_widget[property_type]()
 
-            if habit_property == 'Number':
-                entry = ctk.CTkEntry(property_frame)
-                entry.bind(
-                    '<FocusOut>',
-                    lambda event: self.daily_habit_data.update({
-                        property_name: entry.get()
-                    })
-                )
-                entry.pack(expand=tk.YES, fill=tk.BOTH)
+
+class DailyHabitProperty(ctk.CTkFrame):
+
+    def __init__(self, master: ctk.CTkFrame, property_name: str, **kwargs) -> None:
+        super().__init__(master, **kwargs, fg_color='transparent')
+        self.property_name = property_name
+        self.variable = any()
+        ctk.CTkLabel(self, text=self.property_name).pack(
+            fill=tk.X, side=tk.LEFT)
+
+    def get(self) -> any:
+        return self.variable
+
+
+class DailyHabitPropertyNumber(DailyHabitProperty):
+
+    def __init__(self, master: ctk.CTkFrame, property_name: str, **kwargs) -> None:
+        super().__init__(master, property_data, **kwargs)
+        self.build()
+
+    def build(self) -> None:
+        self.number_entry = ctk.CTkEntry(self, width=200)
+        self.number_entry.pack(side=tk.LEFT)
+
+        self.number_entry('<FocusOut>', lambda event: self.set_variable())
+
+    def set_variable(self) -> None:
+        self.variable = int(self.number_entry.get())
+
+
+class DailyHabitPropertyChecklist(DailyHabitProperty):
+
+    def __init__(self, master: ctk.CTkFrame, property_name: str, **kwargs) -> None:
+        super().__init__(master, property_data, **kwargs)
+        self.build()
+
+    def build(self) -> None:
+        self.checklist = ctk.CTkCheckBox(
+            self, text='',
+            onvalue=True,
+            offvalue=False,
+            width=200
+        )
+        self.checklist.pack(side=tk.LEFT)
+
+        self.number_entry('<FocusOut>', lambda event: self.set_variable())
+
+    def set_variable(self) -> None:
+        self.variable = self.checklist.get()
