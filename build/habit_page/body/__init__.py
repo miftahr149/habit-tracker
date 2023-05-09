@@ -7,9 +7,9 @@ from .daily_habit_frame import DailyHabitFrame
 
 class Body(ctk.CTkFrame):
 
-    def __init__(self, master: ctk.CTkFrame, habit_data: tuple[str, dict], **kwargs) -> None:
+    def __init__(self, master: ctk.CTkFrame, habit_data: tuple[str, list[dict]], **kwargs) -> None:
         super().__init__(master, **kwargs)
-        self.habit_name, self.habit_property = self.habit_data
+        self.habit_name, self.habit_property = habit_data
         self.build()
 
     def build(self) -> None:

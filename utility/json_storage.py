@@ -1,6 +1,7 @@
 import json
 import os
 
+from typing import Any
 
 class OpenJson:
 
@@ -27,7 +28,9 @@ class OpenJson:
         with open(self.file_dir, 'w+') as file:
             file.write(json.dumps(self.storage, indent=4))
 
-    def get(self) -> dict:
+    def get(self, key: str = None) -> dict | Any:
+        if key:
+            return self.storage[key]
         return self.storage
 
 

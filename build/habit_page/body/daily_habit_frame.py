@@ -6,7 +6,7 @@ from .daily_habit import DailyHabit
 
 class DailyHabitFrame(ctk.CTkScrollableFrame):
 
-    def __init__(self, master: ctk.CTkFrame, habit_property: dict, **kwargs) -> None:
+    def __init__(self, master: ctk.CTkFrame, habit_property: list[dict], **kwargs) -> None:
         super().__init__(master, **kwargs, fg_color='transparent')
         self.habit_property = habit_property
         self.build()
@@ -26,7 +26,8 @@ class DailyHabitFrame(ctk.CTkScrollableFrame):
                 util.FunctionStorage.get('reset'),
                 lambda: DailyHabit(
                     util.VariableStorage.get('master'),
-                    create_command=self.add_daily_habit
+                    create_command=self.add_daily_habit,
+                    habit_property=self.habit_property
                 ).pack(expand=tk.YES, fill=tk.BOTH)
             ])
         ).pack(fill=tk.X)

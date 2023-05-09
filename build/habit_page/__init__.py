@@ -10,7 +10,7 @@ from .footer import Footer
 
 class HabitPage(ctk.CTkFrame):
 
-    def __init__(self, master: ctk.CTk, habit_data: tuple[str, dict], **kwargs) -> None:
+    def __init__(self, master: ctk.CTk, habit_data: tuple[str, list[dict]], **kwargs) -> None:
         super().__init__(master, **kwargs)
         self.habit_name, self.habit_property = habit_data
         self.build()

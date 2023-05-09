@@ -9,7 +9,8 @@ from typing import Callable
 
 class DailyHabit(ctk.CTkFrame):
 
-    def __init__(self, master: ctk.CTk, create_command: Callable, habit_property: dict, **kwargs) -> None:
+    def __init__(self, master: ctk.CTk, create_command: Callable,
+                 habit_property: list[dict[str, any]], **kwargs) -> None:
         self.habit_property = habit_property
         self.create_command = create_command
         self.master = master
@@ -37,28 +38,41 @@ class DailyHabit(ctk.CTkFrame):
         self.body_frame = ctk.CTkFrame(self)
         self.body_frame.pack(expand=tk.YES, fill=tk.BOTH)
 
+        today_date = datetime.datetime.now().date()
+
         self.daily_habit_date = ctk.CTkEntry(
             self.body_frame, border_width=0,
+            fg_color='transparent',
             font=('Helvetica', 20, 'bold'),
-            placeholder_text=self.daily_habit_data.strftime("%d %B %Y"),
+            placeholder_text=today_date.strftime("%d %B %Y"),
         )
         self.daily_habit_date.pack(fill=tk.X, padx=10, pady=10)
 
         self.build_daily_habit_property()
 
     def build_daily_habit_property(self) -> None:
-        self.daily_habit_property_frame = ctk.CTkFrame(self.body_frame)
-        for property_name, property_type in self.habit_property.items():
+        self.daily_habit_property_frame = ctk.CTkFrame(
+            self.body_frame, fg_color='transparent')
+        self.daily_habit_property_frame.pack(expand=tk.YES, fill=tk.BOTH)
+
+        for property_data in self.habit_property:
+            property_name, property_type = property_data.values()
+            
+            PACK_INFO = {
+                'fill': tk.X,
+                'padx': (20, 10)
+            }
+
             create_widget = {
                 'Number': lambda: DailyHabitPropertyNumber(
                     self.daily_habit_property_frame,
-                    property_data=(property_name, property_type)
-                ).pack(fill=tk.X),
+                    property_name=property_name
+                ).pack(**PACK_INFO),
 
                 'Checklist': lambda: DailyHabitPropertyChecklist(
                     self.daily_habit_property_frame,
-                    property_data=(property_name, property_type)
-                ).pack(fill=tk.X),
+                    property_name=property_name
+                ).pack(**PACK_INFO),
             }
 
             create_widget[property_type]()
@@ -69,9 +83,12 @@ class DailyHabitProperty(ctk.CTkFrame):
     def __init__(self, master: ctk.CTkFrame, property_name: str, **kwargs) -> None:
         super().__init__(master, **kwargs, fg_color='transparent')
         self.property_name = property_name
-        self.variable = any()
-        ctk.CTkLabel(self, text=self.property_name).pack(
-            fill=tk.X, side=tk.LEFT)
+        self.variable = None
+        
+        ctk.CTkLabel(
+            self, text=self.property_name,
+            font=('Helvetica', 16)
+        ).pack(fill=tk.X, side=tk.LEFT)
 
     def get(self) -> any:
         return self.variable
@@ -80,14 +97,14 @@ class DailyHabitProperty(ctk.CTkFrame):
 class DailyHabitPropertyNumber(DailyHabitProperty):
 
     def __init__(self, master: ctk.CTkFrame, property_name: str, **kwargs) -> None:
-        super().__init__(master, property_data, **kwargs)
+        super().__init__(master, property_name, **kwargs)
         self.build()
 
     def build(self) -> None:
         self.number_entry = ctk.CTkEntry(self, width=200)
         self.number_entry.pack(side=tk.LEFT)
 
-        self.number_entry('<FocusOut>', lambda event: self.set_variable())
+        self.number_entry.bind('<FocusOut>', lambda event: self.set_variable())
 
     def set_variable(self) -> None:
         self.variable = int(self.number_entry.get())
@@ -96,7 +113,7 @@ class DailyHabitPropertyNumber(DailyHabitProperty):
 class DailyHabitPropertyChecklist(DailyHabitProperty):
 
     def __init__(self, master: ctk.CTkFrame, property_name: str, **kwargs) -> None:
-        super().__init__(master, property_data, **kwargs)
+        super().__init__(master, property_name, **kwargs)
         self.build()
 
     def build(self) -> None:
@@ -104,11 +121,10 @@ class DailyHabitPropertyChecklist(DailyHabitProperty):
             self, text='',
             onvalue=True,
             offvalue=False,
-            width=200
+            fg_color='red'
         )
-        self.checklist.pack(side=tk.LEFT)
-
-        self.number_entry('<FocusOut>', lambda event: self.set_variable())
+        self.checklist.pack(fill=tk.X, side=tk.RIGHT)
+        self.checklist.bind('<FocusOut>', lambda event: self.set_variable())
 
     def set_variable(self) -> None:
         self.variable = self.checklist.get()
