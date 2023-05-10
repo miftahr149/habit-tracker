@@ -9,14 +9,12 @@ from typing import Callable
 
 class DailyHabit(ctk.CTkFrame):
 
-    def __init__(self, master: ctk.CTk, create_command: Callable,
+    def __init__(self, master: ctk.CTk, create_command: Callable[[dict], None],
                  habit_property: list[dict[str, any]], **kwargs) -> None:
         self.habit_property = habit_property
         self.create_command = create_command
         self.master = master
         super().__init__(master, **kwargs)
-
-        self.daily_habit_data = dict()
         self.daily_habit_data['date'] = datetime.datetime.now().date()
 
         self.build()
@@ -49,6 +47,30 @@ class DailyHabit(ctk.CTkFrame):
         self.daily_habit_date.pack(fill=tk.X, padx=10, pady=10)
 
         self.build_daily_habit_property()
+
+        self.footer_frame = ctk.CTkFrame(self)
+        self.footer_frame.pack(fill=tk.X)
+
+        ctk.CTkButton(
+            self.footer_frame,
+            text='Create',
+            image=ctk.CTkImage(
+                light_image=util.ImageStorage.get('plus_light'),
+                dark_image=util.ImageStorage.get('plus_dark')
+            ),
+            command=lambda: self.create_command(self.get_),
+        )
+    
+    def get_daily_habit(self) -> dict:
+        daily_habit_date = self.daily_habit_date.get()
+        if date != '':
+            date = self.daily_habit_date['placeholder_text']
+        
+        daily_habit_property = list()
+
+        return {
+            'date': date 
+        }
 
     def build_daily_habit_property(self) -> None:
         self.daily_habit_property_frame = ctk.CTkFrame(
