@@ -60,16 +60,27 @@ class DailyHabit(ctk.CTkFrame):
             ),
             command=lambda: self.create_command(self.get_),
         )
-    
+
     def get_daily_habit(self) -> dict:
-        daily_habit_date = self.daily_habit_date.get()
-        if date != '':
-            date = self.daily_habit_date['placeholder_text']
-        
-        daily_habit_property = list()
+
+        def get_property() -> dict[property_name: str, property_value: any]:
+            habit_property_value: dict[str, any] = dict()
+            property_list: list[DailyHabitProperty]
+
+            property_list = self.daily_habit_property_frame.winfo_children()
+            for widget in property_list:
+                habit_property_value.update(widget.get())
+            
+            return habit_property_value
+
+        def get_date() -> str:
+            if self.daily_habit_date.get() != '':
+                return self.daily_habit_date['placeholder_text']
+            return self.daily_habit_date.get()
 
         return {
-            'date': date 
+            'date': get_date(),
+            'property': get_property()
         }
 
     def build_daily_habit_property(self) -> None:
@@ -79,7 +90,7 @@ class DailyHabit(ctk.CTkFrame):
 
         for property_data in self.habit_property:
             property_name, property_type = property_data.values()
-            
+
             PACK_INFO = {
                 'fill': tk.X,
                 'padx': (20, 10)
@@ -106,14 +117,14 @@ class DailyHabitProperty(ctk.CTkFrame):
         super().__init__(master, **kwargs, fg_color='transparent')
         self.property_name = property_name
         self.variable = None
-        
+
         ctk.CTkLabel(
             self, text=self.property_name,
             font=('Helvetica', 16)
         ).pack(fill=tk.X, side=tk.LEFT)
 
-    def get(self) -> any:
-        return self.variable
+    def get(self) -> dict[property_name: str, property_value: any]:
+        return {self.property_name: self.variable}
 
 
 class DailyHabitPropertyNumber(DailyHabitProperty):
