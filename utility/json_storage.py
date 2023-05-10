@@ -45,7 +45,7 @@ class JsonStorage:
         return cls.storage[folder_name][file_name]
 
     @classmethod
-    def get(cls, folder_name: str = None, file_name: str = None) -> dict[dict[OpenJson]] | dict[OpenJson]:
+    def get(cls, folder_name: str = None, file_name: str = None) -> dict[dict[OpenJson]] | OpenJson:
         return_variable = cls.storage
         if folder_name:
             return_variable = cls.storage[folder_name]
