@@ -1,7 +1,7 @@
 # Habit Tracker
 
 ## About
-A program that design to track your habit
+A program that design to track your habit using tkinter in python
 
 ## Prerequisite
 In this project, im using this extension:
