@@ -37,20 +37,20 @@ class CreateDailyHabit(ctk.CTkFrame):
 
         today = datetime.datetime.now().date()
 
-        self.daily_habit_date = ctk.CTkEntry(
+        self.date = ctk.CTkEntry(
             self.body_frame, border_width=0,
             fg_color='transparent',
             font=('Helvetica', 20, 'bold'),
             placeholder_text=today.strftime('%d %B %Y'),
         )
-        self.daily_habit_date.pack(fill=tk.X, padx=10, pady=10)
+        self.date.pack(fill=tk.X, padx=10, pady=10)
 
         self.build_daily_habit_property()
 
         self.footer_frame = ctk.CTkFrame(self)
         self.footer_frame.pack(fill=tk.X)
 
-        ctk.CTkButton(
+        self.button = ctk.CTkButton(
             self.footer_frame,
             text='Create',
             image=ctk.CTkImage(
@@ -63,7 +63,8 @@ class CreateDailyHabit(ctk.CTkFrame):
                 lambda: self.master.winfo_children()[-1].pack(
                     expand=tk.YES, fill=tk.BOTH)
             ]),
-        ).pack(fill=tk.X)
+        )
+        self.button.pack(fill=tk.X, padx=10, pady=10, side=tk.LEFT)
 
     def get(self) -> dict:
 
@@ -71,15 +72,15 @@ class CreateDailyHabit(ctk.CTkFrame):
             habit_property_value: dict[str, any] = dict()
             property_list: list[DailyHabitProperty]
 
-            property_list = self.daily_habit_property_frame.winfo_children()
+            property_list = self.property_frame.winfo_children()
             for widget in property_list:
                 habit_property_value.update(widget.get())
 
             return habit_property_value
 
         def get_date() -> str:
-            if self.daily_habit_date.get():
-                return self.daily_habit_date.get()
+            if self.date.get():
+                return self.date.get()
             return datetime.datetime.now().strftime("%d %B %Y")
 
         return {
@@ -88,9 +89,9 @@ class CreateDailyHabit(ctk.CTkFrame):
         }
 
     def build_daily_habit_property(self) -> None:
-        self.daily_habit_property_frame = ctk.CTkFrame(
+        self.property_frame = ctk.CTkFrame(
             self.body_frame, fg_color='transparent')
-        self.daily_habit_property_frame.pack(expand=tk.YES, fill=tk.BOTH)
+        self.property_frame.pack(expand=tk.YES, fill=tk.BOTH)
 
         for property_data in self.habit_property:
             property_name, property_type = property_data.values()
@@ -102,12 +103,12 @@ class CreateDailyHabit(ctk.CTkFrame):
 
             create_widget = {
                 'Number': lambda: DailyHabitPropertyNumber(
-                    self.daily_habit_property_frame,
+                    self.property_frame,
                     property_name=property_name
                 ).pack(**PACK_INFO),
 
                 'Checklist': lambda: DailyHabitPropertyChecklist(
-                    self.daily_habit_property_frame,
+                    self.property_frame,
                     property_name=property_name
                 ).pack(**PACK_INFO),
             }
@@ -130,6 +131,12 @@ class DailyHabitProperty(ctk.CTkFrame):
     def get(self) -> dict[str, any]:
         return {self.property_name: self.variable}
 
+    def get_property_name(self) -> str:
+        return self.property_name
+
+    def sets(self, value: any) -> None:
+        self.variable = value
+
 
 class DailyHabitPropertyNumber(DailyHabitProperty):
 
@@ -145,6 +152,10 @@ class DailyHabitPropertyNumber(DailyHabitProperty):
 
     def set_variable(self) -> None:
         self.variable = int(self.number_entry.get())
+
+    def sets(self, value: int) -> None:
+        super().sets(value)
+        self.number_entry.insert(0, str(value))
 
 
 class DailyHabitPropertyChecklist(DailyHabitProperty):
@@ -166,3 +177,10 @@ class DailyHabitPropertyChecklist(DailyHabitProperty):
 
     def set_variable(self) -> None:
         self.variable = self.checklist.get()
+
+    def sets(self, value: bool) -> None:
+        super().sets(value)
+
+        if value:
+            return self.checklist.select()
+        return self.checklist.deselect()

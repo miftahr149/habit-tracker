@@ -50,6 +50,8 @@ class DailyHabitFrame(ctk.CTkScrollableFrame):
                     lambda: EditDailyHabit(
                         util.VariableStorage.get('master'),
                         edit_command=self.edit_daily_habit,
+                        daily_habit_data=daily_habit_data,
+                        habit_property=self.habit_property,
                         delete_command=util.Stack([
                             lambda: self.daily_habit_storage.pop(
                                 daily_habit_date),
@@ -74,4 +76,6 @@ class DailyHabitFrame(ctk.CTkScrollableFrame):
         self.build()
 
     def edit_daily_habit(self, old_habit_data, new_habit_data) -> None:
-        pass
+        old_habit_date = list(old_habit_data.keys())[0]
+        del self.daily_habit_storage[old_habit_date]
+        self.add_daily_habit(new_habit_data)
