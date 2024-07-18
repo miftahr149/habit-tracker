@@ -56,7 +56,12 @@ class EditDailyHabit(CreateDailyHabit):
                 light_image=util.ImageStorage.get('trash_can_light'),
                 dark_image=util.ImageStorage.get('trash_can_dark')
             ),
-            command=self.delete_command
+            command=util.Stack([
+                self.delete_command,
+                self.destroy,
+                lambda: self.master.winfo_children()[-1] \
+                    .pack(fill=tk.BOTH, expand=tk.YES)
+            ])
         )
         self.delete_button.pack(fill=tk.X, padx=10, pady=10, side=tk.RIGHT)
 

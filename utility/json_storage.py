@@ -55,7 +55,7 @@ class JsonStorage:
 
     @classmethod
     def load_from_folder(cls, folder_name: str = None) -> dict[OpenJson]:
-        cls.storage[folder_name]: dict[OpenJson] = dict()
+        cls.storage[folder_name] = dict()
         for json_file in os.listdir(f'json/{folder_name}'):
             file_name = json_file.split('.')[0]
             cls.storage[folder_name][file_name] = OpenJson(

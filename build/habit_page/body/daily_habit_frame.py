@@ -17,6 +17,7 @@ class DailyHabitFrame(ctk.CTkScrollableFrame):
         self.build()
 
     def build(self) -> None:
+        print(self.daily_habit_storage)
 
         self.build_daily_habit()
 
@@ -38,12 +39,15 @@ class DailyHabitFrame(ctk.CTkScrollableFrame):
         ).pack(fill=tk.X)
 
     def build_daily_habit(self) -> None:
-
+        
         def daily_habit_list(daily_habit_data: dict[str, dict]) -> ctk.CTkButton:
             daily_habit_date, daily_habit_value = daily_habit_data
+            print(daily_habit_date)
+            delete_command = lambda: self.delete_daily_habit(daily_habit_date)
 
             return ctk.CTkButton(
-                self, text=daily_habit_date,
+                self, 
+                text=daily_habit_date,
                 fg_color='transparent',
                 command=util.Stack([
                     util.FunctionStorage.get('reset'),
@@ -52,12 +56,7 @@ class DailyHabitFrame(ctk.CTkScrollableFrame):
                         edit_command=self.edit_daily_habit,
                         daily_habit_data=daily_habit_data,
                         habit_property=self.habit_property,
-                        delete_command=util.Stack([
-                            lambda: self.daily_habit_storage.pop(
-                                daily_habit_date),
-                            lambda: util.JsonStorage.get('habit', self.habit_name) \
-                                .sets('daily_habit_list', self.daily_habit_storage)
-                        ])
+                        delete_command=delete_command
                     ).pack(expand=tk.YES, fill=tk.BOTH)
                 ])
             )
@@ -79,3 +78,14 @@ class DailyHabitFrame(ctk.CTkScrollableFrame):
         old_habit_date = list(old_habit_data.keys())[0]
         del self.daily_habit_storage[old_habit_date]
         self.add_daily_habit(new_habit_data)
+    
+    def delete_daily_habit(self, daily_habit_date: str) -> None:
+        print("Hello World")
+        print(daily_habit_date)
+        self.daily_habit_storage.pop(daily_habit_date)
+        util.JsonStorage.get('habit', self.habit_name) \
+            .sets('daily_habit_list', self.daily_habit_storage)
+        for widget in self.winfo_children():
+            widget.destroy()
+        self.build()
+        

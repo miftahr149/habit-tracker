@@ -35,9 +35,12 @@ class HabitListFrame(ctk.CTkFrame):
 
     def add_habit_function(self, habit: dict) -> None:
         habit_name, habit_property = habit.values()
-        util.JsonStorage.create('habit', habit_name).sets(
-            'property', habit_property)
-        self.storage_habit = util.JsonStorage.get('habit')
+        
+        newHabitJson = util.JsonStorage.create('habit', habit_name)
+        newHabitJson.sets('property', habit_property)
+        newHabitJson.sets('daily_habit_list', {})
+
+        self.storage_habit = util.JsonStorage.load_from_folder('habit')
         util.reset_frame(self.habit_frame)
         self.add_habit_list()
 
