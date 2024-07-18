@@ -9,7 +9,8 @@ from .daily_habit import CreateDailyHabit, DailyHabitProperty
 
 class EditDailyHabit(CreateDailyHabit):
 
-    def __init__(self, master: ctk.CTk, edit_command: Callable[[dict, dict], None],
+    def __init__(self, master: ctk.CTk, 
+                 edit_command: Callable[[dict, dict], None],
                  delete_command: Callable,
                  daily_habit_data: tuple[str, dict[str, any]],
                  habit_property: list[dict[str, any]], **kwargs) -> None:
